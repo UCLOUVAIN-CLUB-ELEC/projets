@@ -1,0 +1,9 @@
+% Subsection about LPF
+Le second filtre implémenté est un \emph{filtre passe-bas} (ou \emph{Low-Pass Filter}, LPF en anglais). Il s'agit d'un filtre qui laisse passer les basses fréquences et filtre les signaux à haute fréquence. 
+
+De nouveau, une manière simple de mettre en oeuvre ce type de filtre est d'utiliser une résistance suivie d'une capacité vers la masse (voir Figure \ref{fig2:schematics}). La capacité va court-circuiter à la masse les signaux à haute fréquence, laissant donc passer les signaux à basse fréquence. La \emph{fréquence de coupure} du filtre, c'est-à-dire la fréquence $f_c$ à partir de laquelle le filtre LPF va commencer à couper le signal, est inversément proportionnelle à $RC$:
+\[
+	f_c = \dfrac{1}{2\pi RC}.
+\]
+
+Pour pouvoir contrôler/modifier l'effet du filtre, il suffit d'utiliser un potentiomètre (une résistance variable) à la place d'une résistance fixe.

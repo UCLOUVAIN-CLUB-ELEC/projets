@@ -1,0 +1,125 @@
+\documentclass[a4paper,10pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{epstopdf}
+\usepackage[justification=centering]{caption}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{gensymb}
+\usepackage[bottom]{footmisc}
+\usepackage{appendix}
+\usepackage{pdfpages}
+\usepackage{todonotes}
+\usepackage{mathpazo}
+\usepackage{titleps}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[skins]{tcolorbox}
+\usepackage{sectsty} 
+\usepackage[arrowmos]{circuitikz}
+\usepackage{pgfplots}
+\usepackage{blindtext}
+\usepackage{adjustbox}
+\usepackage[inner=2.5cm,outer=2.5cm,top=3cm,bottom=3cm]{geometry}
+
+\graphicspath{{pictures/}}
+\setlength\parindent{0pt}
+\renewcommand*\rmdefault{ppl}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
+\sectionfont{\large}
+\subsectionfont{\normalsize}
+
+% Page style definitions
+\newpagestyle{main}{
+	\sethead[Club ELEC : Hands-on 1][][]  % even
+			{\chaptertitle}{}{Club ELEC : Hands-on 1}
+	\headrule
+    \setfoot[\thepage][][]
+    		{}{}{\thepage}		
+}
+
+\newpagestyle{appendix}{
+	\sethead[Club ELEC : Annexes][][]  % even
+			{}{}{Club ELEC : Annexes}
+	\headrule
+    \setfoot[\thepage][][]
+    		{}{}{\thepage}
+    \footrule
+}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\title{	
+	\vspace{2.5cm}
+	\normalfont \normalsize 
+	\huge Club ELEC\\ 
+	\vspace{2.5cm}
+	\huge Hand clap sensor\\
+	\vspace{.25cm}
+	\Large HO1 - Microphone et signal audio
+	\vspace{2.5cm}
+	\centering
+}
+
+\begin{document}
+\renewcommand{\figurename}{Figure}
+\renewcommand{\thepage}{\roman{page}}
+\setcounter{page}{1}
+
+\pagenumbering{gobble}
+\maketitle
+\newpage
+\pagenumbering{arabic}
+\pagestyle{main}
+
+\newpage
+\null
+\thispagestyle{empty}
+\newpage
+\clearpage
+
+\setcounter{page}{1}
+
+%%% Introduction
+\section*{Introduction}
+\input{intro.tex}
+
+%%% Objectifs du HO1
+\section*{Objectifs}
+\input{objectives.tex}
+
+%%% Microphone
+\section{Microphone: du signal sonore au signal électrique}
+\input{micro.tex}
+
+%%% Circuit
+\section{Un circuit simple pour démarrer}
+\input{circuit.tex}
+
+% Signal DC et AC
+\section{Signal AC ou DC?}
+\input{signal.tex}
+
+% Oscilloscope
+\section{A vous d'essayer!}
+\input{oscillo.tex}
+
+% Filtrage
+\section{Capacité, filtres et découplage}
+\input{filtre.tex}
+
+% Réflexions sur le système
+\section{Et après...}
+\input{suite.tex}
+
+\end{document}

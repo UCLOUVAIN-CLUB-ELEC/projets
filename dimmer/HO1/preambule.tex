@@ -1,0 +1,230 @@
+
+%% START OF PREAMBULE [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[
+\documentclass[11pt, a4paper]{article}
+
+%% PACKAGES ---------------------------------------------------------------------------------------------
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[left = 2.5cm, right = 2.0cm, top = 2cm, bottom = 2cm]{geometry}
+\usepackage{graphicx}
+\usepackage[tikz]{bclogo}
+\usepackage{multicol}
+\usepackage{multirow} 
+%\usepackage{framed}
+\usepackage{ccaption}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[english]{varioref}
+\usepackage[output-exponent-marker = \text{e}]{siunitx}
+\usepackage{pdfpages}
+\usepackage{titlesec}
+\usepackage{fancybox}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{url}
+\usepackage{setspace}
+%\usepackage{picture}
+\usepackage{subfigure}
+%\usepackage{sidecap}
+%\usepackage{pstricks}
+%\usepackage{bigstrut}
+\usepackage{array}
+\usepackage{tabularx}
+%\usepackage{epstopdf}
+%\usepackage{epsfig}
+%\usepackage[toc,page]{appendix}	% 	Annexes
+%\usepackage{mcode}			% 	Matlab 
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{vwcol}
+ \usepackage{lipsum}
+ \usepackage{colortbl}
+ \usepackage{wrapfig}
+ \usepackage{pifont}
+ \usepackage{verbatim}
+ \usepackage{epstopdf}
+ \usepackage{float}
+ \usepackage[parfill]{parskip}
+ %\usepackage[cm]{fullpage}
+ \usepackage{pdflscape}
+\usepackage{sidecap}
+
+%% INFORMATIONS DOCUMENTS ---------------------------------------------------------------------------------
+\author{~~}
+\title{\textsf{LINMA1530} \\Rapport de laboratoire}
+
+\date{\today}
+
+%% INFORMATIONS DE STYLE ----------------------------------------------------------------------------------
+\definecolor{def}{rgb}{0,0.27,0.55}
+
+\captiondelim{ -- }
+\captiontitlefont{\small\sf}
+\captionnamefont{\small\sf\bfseries\color{def}}
+\captionstyle{\raggedright}
+
+\definecolor{grisbrun}{rgb}{0.42,0.31,0.26}
+\definecolor{gris}{rgb}{0.56,0.56,0.56}
+\definecolor{orange}{rgb}{1,0.76,0.26}
+\reversemarginpar
+
+\titleformat{\chapter}[display]{\raggedleft\sf\bfseries\LARGE}{\boxput*(0.6,0){\MakeUppercase{\chaptertitlename}~\Huge\thechapter}{\includegraphics[width=\textwidth]{Style/bannierechapter2.pdf}}}{4ex}{}[\vspace{2ex}\titlerule]
+
+\titleformat*{\section}{\sf\bfseries\Large}
+\titleformat*{\subsection}{\sf\bfseries}
+\titleformat*{\paragraph}{\sf\color{def}}
+
+\makeatletter
+	\def\@seccntformat#1{%
+	\protect\makebox[0pt][r]{\csname the#1\endcsname\quad}}
+\makeatother
+
+\setitemize{label=$\triangleright$, itemsep=0pt}
+
+%\pagestyle{fancy}
+%\fancyhead{}
+%\fancyfoot{}
+%\fancyhead[LO,RE]{\scriptsize\sf\rightmark}
+%\fancyfoot[LE]{\sf \thepage|}
+%\fancyfoot[RO]{\sf |\thepage}
+%\renewcommand{\headrulewidth}{0pt}
+
+\newcommand{\marg}[1]{\marginpar{\color{gris}\raisebox{-0.9em}{\sf$\triangleright$ #1}}}
+\newcommand{\margt}[1]{\marginpar{\color{def}\raisebox{-2.6em}{\sf#1}}}
+
+\newcommand{\dumfig}{\begin{figure}\centering\includegraphics[width=0.6\textwidth]{dum}\end{figure}}
+
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{5pt}
+
+\setlength\parindent{0pt}
+\setlength\parskip{5pt}
+
+%% DECLARATION DES NOUVEAUX ENVIRONNEMENTS ----------------------------------------------------------------
+\newenvironment{gbar}[1]{%
+\def\FrameCommand{{\color{#1}\vrule width 3 pt}\colorbox{white!80!black!30!}} %
+\MakeFramed{\advance\hsize -\width \FrameRestore}} %
+{\endMakeFramed}
+
+\newenvironment{figuresource}[1]{
+\begin{figure}
+\centering
+\rotatebox{90}{\tiny{Source: #1}}
+}
+{\end{figure}}
+
+\newcommand{\model}[2]{\vspace{0.5cm}\begin{center}\fbox{\parbox{0.8\textwidth}{\begin{center}#1\end{center} \vspace{0.1cm} #2}}\end{center}\vspace{0.5cm}}
+
+\newcommand{\rapTech}{\includegraphics[width=0.4cm]{RapportTechnique}}
+
+\newcommand{\resultbox}[2]{\begin{center}\colorbox{yellow!30!white}{\begin{minipage}{#1}
+\setlength{\parskip}{1mm}
+\begin{center}#2\end{center}
+\end{minipage}}\end{center}\vspace{10pt}}
+
+\newenvironment{explanation}[3]{\vspace{0.5cm} \hspace*{1cm}\begin{minipage}{#1-1cm}\hrule$\rhd$\colorbox{def}{\sf \textcolor{white}{#2}} \textit{#3} \hrule \vspace{0.5cm}}%
+{\vspace{0.3cm}\hrule \end{minipage}\vspace{1cm}}
+
+\newenvironment{infobox}[2]{\vspace{0.5cm}
+\begin{bclogo}[logo =\bcinfo , barre = none , noborder = true, sousTitre= #2]{ \sf{#1}}%
+\begin{gbar}{yellow}\begin{minipage}{\textwidth}}
+{\end{minipage}\end{gbar}
+\end{bclogo}
+\vspace{0.5cm}}
+
+\definecolor{orange}{rgb}{0.98,0.75,0.21}
+\definecolor{grey}{rgb}{0.9,0.9,0.9}
+
+\newcommand{\ovBox}[2]{\ovalbox{\makebox[#1]{#2}}}
+\newcommand{\colBox}[2]{\colorbox{orange}{\parbox{#1}{\centering #2}}}
+
+\newcommand{\hypo}[1]{\colorbox{grey}{\begin{sf}\parbox{\textwidth}{\fbox{H}$\rhd$ #1} \end{sf}}}
+
+\newcommand{\Comarrow}[4]{\begin{picture}(1,1)
+\put(0,0){\vector(0,-1){#1}}
+\end{picture}\vspace{#2} & \raisebox{#3}{\parbox{7cm}{#4}}}
+
+\newcommand{\g}[1]{\textcolor{gris}{#1}}
+
+\newenvironment{mylist}{
+\begin{list}{
+\begin{tikzpicture}
+\fill[draw=black,color=orange] (0,0) rectangle (0.2,0.2);
+\end{tikzpicture}
+}{}}{\end{list}}
+
+\newcommand{\barv}[1]{
+\begin{tikzpicture}
+\fill[draw=black,color=orange] (0,-0.15) rectangle (2*#1,0.15);
+\draw[black!60] (0,-0.2) -- (0,0.2);
+\end{tikzpicture}
+}
+
+
+
+
+%\newenvironment{mytable}[5]
+%{\refstepcounter{table}\label{#4}\begin{table}[!ht] \vspace{1cm}\begin{center} \begin{minipage}{#5} \begin{sf}\noindent\textbf{{\textcolor{def}{Table~\thetable \quad #1}}} \par #2 \par \vspace{0.3cm} \par \begin{center}\begin{tabular}{#3}}
+%{\end{tabular}\end{center}\end{sf}\end{minipage}\end{center}\end{table}}
+
+\newenvironment{sidetable}[4]
+{\begin{minipage}{\textwidth}\vspace{0.7cm}\refstepcounter{table}\label{#4}
+\begin{minipage}[b]{0.3\textwidth}
+\begin{sf}\noindent\textbf{{\textcolor{def}{\small Table~\thetable \quad #1}}} \par \begin{footnotesize} #2\end{footnotesize} \end{sf}
+\end{minipage}
+\begin{minipage}{0.7\textwidth}\begin{sf}
+\begin{tabular}{#3}}
+{\end{tabular}\end{sf}\end{minipage}\vspace{0.5cm}\end{minipage}}
+
+% mytable{Title}{Description}{columns}{label}
+\newenvironment{mytable}[4]
+{\begin{minipage}{0.95\textwidth}\vspace{0.3cm}\refstepcounter{table}\label{#4}\begin{sf}\noindent\textbf{{\textcolor{def}{\small Table~\thetable \quad #1}}} \par \begin{footnotesize}#2\end{footnotesize}\par \vspace{0.3cm} \par \begin{tabular}{#3}}
+{\end{tabular}\end{sf}\vspace{0.3cm}\end{minipage}}
+
+
+\newcommand{\sidefig}[4]{
+\par
+\begin{minipage}[t]{0.6\textwidth}
+\vspace{0pt}
+\includegraphics[width=#2]{#1}
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+\vspace{0.5cm}
+\refstepcounter{figure}\label{#4}
+\begin{sf}\noindent\textbf{{\textcolor{def}{\small Figure~\thefigure}}} \par \begin{footnotesize}#3\end{footnotesize} \end{sf}
+\end{minipage}
+}
+
+\newcommand{\sidefigf}[4]{
+\par
+\begin{minipage}[t]{0.6\textwidth}
+\vspace{0pt}
+\includegraphics[width=#2]{#1}
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+\vspace{0.5cm}
+\refstepcounter{figure}\label{#4}
+\begin{sf}\noindent\textbf{{\textcolor{def}{\small Figure~\thefigure}}} \par \begin{footnotesize}#3\end{footnotesize} \end{sf}
+\end{minipage}
+}
+
+\newcommand{\myfig}[4]{
+\refstepcounter{figure}\label{#2} #1 \par
+\begin{sf}\noindent\textbf{{\textcolor{def}{\small Figure~\thefigure}}} #4 \par\begin{footnotesize} #3\end{footnotesize} \end{sf}
+\par \vspace{0.5cm}
+}
+
+%% FACILITES IMAGES ----------------------------------------------------------------------------------------
+\graphicspath{{Images/}}
+%\DeclareGraphicsExtensions{.png,.jpg,.pdf,.eps,.mps}
+
+
+%% END OF PREAMBULE ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]

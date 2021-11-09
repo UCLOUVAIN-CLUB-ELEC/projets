@@ -1,0 +1,34 @@
+Le but de cet exercice est d'établir une communication entre votre télécommande et l'Arduino. Typiquement, quand votre télécommande essaye de communiquer avec votre télévision, cela se passe 3 étapes:
+\begin{enumerate}
+  \item Quand vous appuyez sur un bouton, la télécommande envoie une valeur $X$
+  via infrarouges.
+  \item La télévision reçoit cette valeur $X$ via le récepteur infrarouges.
+  \item En fonction de la valeur de $X$, le microcontrôleur de la télévision fait une action. Il peut
+  soit augmenter le volume, changer de chaîne ou encore s'éteindre.
+\end{enumerate}
+
+La toute première étape est donc de savoir quelle valeur est envoyée par votre télécommande quand vous appuyez sur un certain bouton. Le programme \autoref{code1} permet de faire cela. En quelques mots, à chaque fois que l'Arduino reçoit un message infrarouges, il l'envoie directement à l'ordinateur. Cela vous permet donc de savoir le code correspondant à chacun des boutons de votre télécommande (notez ça sur un feuille ;)).
+
+Pour voir les messages en console, vous devez aller dans \textit{Tools-->Serial Monitor}.
+
+\lstset{language=C}
+\begin{lstlisting}[frame=single,numbers=left,numberstyle=\small,label={code1},caption={Lecture de la télécommande}]
+#include <IRremote.h>
+
+const int RECV_PIN = 7;
+
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
+void setup(){
+  Serial.begin(9600);
+  irrecv.enableIRIn();
+}
+
+void loop(){
+  if (irrecv.decode(&results)){
+        Serial.println(results.value, HEX);
+        irrecv.resume();
+  }
+}
+\end{lstlisting}

@@ -1,0 +1,112 @@
+\documentclass[a4paper,10pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{epstopdf}
+\usepackage[justification=centering]{caption}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{gensymb}
+\usepackage[bottom]{footmisc}
+\usepackage{appendix}
+\usepackage{pdfpages}
+\usepackage{todonotes}
+\usepackage{mathpazo}
+\usepackage{titleps}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[skins]{tcolorbox}
+\usepackage{sectsty}
+\usepackage[arrowmos]{circuitikz}
+\usepackage{blindtext}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage[inner=2.5cm,outer=2.5cm,top=3cm,bottom=3cm]{geometry}
+
+\graphicspath{{pictures/}}
+\setlength\parindent{0pt}
+\renewcommand*\rmdefault{ppl}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
+\sectionfont{\large}
+\subsectionfont{\normalsize}
+
+% Page style definitions
+\newpagestyle{main}{
+	\sethead[Club ELEC : Hands-on 3][][]  % even
+			{\chaptertitle}{}{Club ELEC : Hands-on 3}
+	\headrule
+    \setfoot[\thepage][][]
+    		{}{}{\thepage}
+}
+
+\newpagestyle{appendix}{
+	\sethead[Club ELEC : Annexes][][]  % even
+			{}{}{Club ELEC : Annexes}
+	\headrule
+    \setfoot[\thepage][][]
+    		{}{}{\thepage}
+    \footrule
+}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\title{
+	\vspace{2.5cm}
+	\normalfont \normalsize
+	\huge Club ELEC\\
+	\vspace{2.5cm}
+	\huge Projet Robot\\
+	\vspace{.25cm}
+	\Large HO3 - Détection de ligne
+	\vspace{2.5cm}
+	\centering
+}
+
+\begin{document}
+\renewcommand{\figurename}{Fig.}
+\renewcommand{\thepage}{\roman{page}}
+\setcounter{page}{1}
+
+\pagenumbering{gobble}
+\maketitle
+\newpage
+\pagenumbering{arabic}
+\pagestyle{main}
+
+\newpage
+\null
+\thispagestyle{empty}
+\newpage
+\clearpage
+
+\setcounter{page}{1}
+
+%%% Introduction
+\section*{Introduction}
+\input{introduction.tex}
+
+%%% Objectifs du HO1
+\section*{Objectifs}
+\input{objectives.tex}
+
+%%% Assemblage du robot
+\section*{Connexion des blocs}
+\input{connexion.tex}
+
+\section*{Assemblage du robot}
+\input{assemblage.tex}
+
+%%% Détection de ligne
+\section*{Détection de ligne}
+\input{detection.tex}
+
+\end{document}

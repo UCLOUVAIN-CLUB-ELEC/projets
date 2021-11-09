@@ -1,0 +1,52 @@
+Une fois que vous avez identifié le code que votre télécommande envoie pour un certain bouton, vous pouvez adapter l’exemple \autoref{code2}.
+Ici, à chaque itération de la fonction \textit{loop()}, l'Arduino regarde si le récepteur infrarouges a reçu une message. Pour chaque message reçu, il regarde à quel bouton ce code correspond (ici $AB456CD$ pour le bouton 1 et $05FBAC33$ pour le bouton 2). Ensuite, il exécute une fonction correspondant au bouton utilisé (\textit{IR\_button1()}).
+Dans le cas du bouton 1, la Led s'allume ou s'éteint à chaque fois que le bouton est appuyé.
+
+\lstset{language=C}
+\begin{lstlisting}[frame=single,numbers=left,numberstyle=\small,label={code2},caption={Code 2}]
+  #include <IRremote.h>
+
+  #define REMOTE_BUTTON1    0xAB456CD   // Ligne a modifier
+  #define REMOTE_BUTTON2    0x5FBAC33   // Ligne a modifier
+
+  const int RECV_PIN = 7;
+  const int LED_PIN = 13;
+
+  IRrecv irrecv(RECV_PIN);
+  decode_results results;
+
+  int LED_val = 0;
+
+  void setup() {
+    Serial.begin(9600);
+    pinMode(LED_PIN,OUTPUT);
+    digitalWrite(LED_PIN,LED_val);
+    irrecv.enableIRIn();
+    delay(500);
+  }
+
+  void loop() {
+    if (irrecv.decode(&results)){
+      //Serial.println(results.value, HEX);
+      irrecv.resume();
+      switch (results.value) {
+        case REMOTE_BUTTON1:
+          IR_button1();
+          break;
+        case REMOTE_BUTTON2:
+          IR_button2();
+          break;
+      }
+      irrecv.resume();
+      }
+  }
+
+  void IR_button1(){
+      LED_val = 1-LED_val;
+      digitalWrite(LED_PIN,LED_val);
+  }
+
+  void IR_button2(){
+    // faire qqch
+  }
+\end{lstlisting}

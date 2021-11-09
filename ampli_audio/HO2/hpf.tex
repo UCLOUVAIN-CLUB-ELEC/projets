@@ -1,0 +1,9 @@
+% Subsection about HPF
+Le premier filtre implémenté est un \emph{filtre passe-haut} (ou \emph{High-Pass Filter}, HPF en anglais). Il s'agit d'un filtre qui laisse passer les hautes fréquences et filtre les signaux à basse fréquence. 
+
+Une manière simple de mettre en oeuvre ce type de filtre est d'utiliser une capacité suivie d'une résistance vers la masse (voir Figure \ref{fig2:schematics}). La capacité va laisser passer les signaux à haute fréquence. La \emph{fréquence de coupure} du filtre, c'est-à-dire la fréquence $f_c$ à partir de laquelle le filtre HPF va commencer à laisser passer le signal, est inversément proportionnelle à $RC$:
+\[
+	f_c = \dfrac{1}{2\pi RC}.
+\]
+
+Pour pouvoir contrôler/modifier l'effet du filtre, il suffit d'utiliser un potentiomètre (une résistance variable) à la place d'une résistance fixe.

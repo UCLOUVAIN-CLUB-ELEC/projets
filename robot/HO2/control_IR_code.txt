@@ -1,0 +1,46 @@
+#include <IRremote.h>
+
+// A modifier
+#define REMOTE_BUTTON1    0xAB456CD
+#define REMOTE_BUTTON2    0x5FBAC33
+
+const int RECV_PIN = 7;
+const int LED_PIN = 13;
+
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
+int LED_val = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_PIN,OUTPUT);
+  digitalWrite(LED_PIN,LED_val);
+  irrecv.enableIRIn();
+  delay(500);
+}
+
+void loop() {
+  if (irrecv.decode(&results)){
+    //Serial.println(results.value, HEX);
+    irrecv.resume();
+    switch (results.value) {
+      case REMOTE_BUTTON1:    
+        IR_button1();
+        break;
+      case REMOTE_BUTTON2:    
+        IR_button2();
+        break;
+    }
+    irrecv.resume();
+    }
+}
+
+void IR_button1(){
+    LED_val = 1-LED_val;
+    digitalWrite(LED_PIN,LED_val);
+}
+
+void IR_button2(){
+  // faire qqch
+}

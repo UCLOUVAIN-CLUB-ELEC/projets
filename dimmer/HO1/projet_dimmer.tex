@@ -1,0 +1,141 @@
+\input{preambule}
+
+
+%%% personal macros - start here
+%
+%
+\def\e{\begin{equation}}
+\def\f{\end{equation}}
+%\def\_#1{{\bf #1}}
+\def\o{\omega}
+\def\E{\varepsilon}
+\def\M{\mu}
+\def\D{\nabla}
+\def\.{\cdot}
+\def\x{\times}
+\def\Re{{\rm Re\mit}}
+\def\Im{{\rm Im\mit}}
+\def\l#1{\label{eq:#1}}
+\def\r#1{(\ref{eq:#1})}
+
+
+%
+%%% personal macros - end
+
+\begin{document}
+\captionstyle{\centering}
+
+%%% Title of paper
+\title{\large \textbf{Projet : Création d'une sirène d'alarme} \vspace{-1.2cm}}
+
+\maketitle
+
+\section{Introduction}
+Le but de ce projet est de réaliser un petit circuit destiné à la production de son, qui repose sur deux principes. Premièrement, la fréquence de la note produite est fixée par la constante de temps d'un circuit RC, réglable au travers d'un potentiomètre. Cela permet de rendre le son plus grave ou plus aigu. Deuxièmement, l'amplitude de ce signal est modulée pour modifier l'intensité du son. Cela permet de régler le volume.\\
+
+Ce circuit utilisera cinq types de composants: 
+\begin{itemize}
+\item des \textbf{capacités}, qui peuvent être vues comme des réservoirs d'énergie ;
+\item des \textbf{résistances}, pour fixer la valeur du courant ; nous allons aussi utiliser des \textbf{potentiomètres}, qui sont des résistances variables ; 
+\item un chip \textbf{NE555}, qui est un circuit bascule à plusieurs seuils ("un trigger de Schmitt") ;
+\item des  \textbf{diodes}, qui sont des éléments qui ne laissent passer le courant que dans un sens ; plus particulièrement, nous utiliserons des diodes \textbf{LED}, qui émettent de la lumière quand elles sont traversées par un courant ;
+\item un \textbf{haut-parleur}/des \textbf{buzzers} piézoélectriques, qui sont des éléments destinés à produire un son (donc un mouvement mécanique) sur base du signal électrique reçu.
+\end{itemize}
+
+Dans un premier temps, nous construirons un circuit simple que nous améliorerons petit à petit en introduisant de nouveaux composants jusqu'à arriver à l'objectif final. La séance d'aujourd'hui sera consacrée à la découverte du composant NE555 et à son utilisation dans 2 applications: faire clignoter une LED et produire un son avec un haut-parleur/buzzer piézoélectrique.
+
+\section{Le NE555}
+Le NE555 est un composant complexe que nous allons traiter comme une boite noire\footnote{Pour les plus avancés, n'hésitez pas à demander des informations plus détaillées}. Le NE555 est dans un boitier standardisé et nommé "DIP8". Ce genre de boitier comporte une encoche permettant de l'orienter. Ensuite, ses connections sont numérotées dans le sens anti-horlogique, en partant de l'encoche (cfr. Figure \ref{fig:dip}).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width = 4cm]{img/555}
+\caption{Schéma du NE555 dans son boitier DIP8.}
+\label{fig:dip}
+\end{figure}
+
+Chaque connexion est décrite par quelques lettres dont la signification peut être trouvée dans les datasheets du composant. Cependant, nous nous intéresserons ici à une utilisation bien précise parmi les multiples possibles, et utiliserons donc le NE555 tel que représenté sur la Figure \ref{fig:dip2}.
+
+\begin{figure}[h!]
+\center	
+\includegraphics[width = 6cm]{img/555_con1}
+\caption{Schéma du NE555 tel qu'utilisé dans ce projet.}
+\label{fig:dip2}
+\end{figure}
+
+Dans cette figure, les 8 connexions sont réduites au nombre de 5 (A à E). Les pins A et B correspondent à l'alimentation du circuit. Ils sont donc reliés respectivement à la borne positive de l'alimentation ($V_S$) et à la masse. 
+
+Le NE555 va mesurer la tension $V_{in}$ au point E et la comparer à deux valeurs de références, $V_l = 0.33\times V_S$ et $V_h = 0.66\times V_S$. Ces deux valeurs seuils permettent de changer l'état de la bascule. Si $V_{in}>V_h$, la tension au point C ($V_C$) est à la masse et la tension au point D ($V_{out}$) vaut la tension d'alimentation, $V_S$. Si $V_{in}<V_l$, la tension au point C vaut $V_S$ et le point D est ramené à la masse. Si $V_l<V_{in}<V_h$, les sorties C et D dépendent de la dernière valeur seuil qui a été atteinte. 
+
+De tels systèmes fonctionnant avec deux seuils différents sont couramment utilisés. Pensez à votre thermostat: si vous le réglez à 17°, le chauffage se met en route lorque vous descendez en dessous de 16° et s'éteint dès que vous atteignez 18°. Cela permet d'éviter que le moindre courant d'air suffise à stopper ou faire redémarrer votre chaudière. La comparaison entre un système à seuil unique et un système à deux seuils peut être vue à la Figure \ref{fig:trigger}.
+
+\begin{figure}[h!]
+\center
+\includegraphics[width = 7cm]{img/trigger_schmitt}
+\caption{Comparaison d'un circuit à seuil unique (graphe du milieu) et d'un circuit comportant deux seuils (graphe du bas), tel le NE555, en fonction de la tension d'entrée (graphe du haut). D'après \cite{trigger}.}
+\label{fig:trigger}
+\end{figure}
+
+\section{RC-trigger}
+Nous allons commencer par utiliser le NE555 pour produire un signal carré. Pour ce faire on peut rajouter une résistance $R_1$ et une capacité $C_1$ comme indiqué sur la Figure \ref{fig:RC_trig}. Le fonctionnement est le suivant: lorsque la tension de sortie $V_{out}$ est égale à la tension d'alimentation, la tension $V_C$ au point C est nulle. La capacité $C_1$ va donc se décharger à travers la résistance $R_1$. La tension $V_{in}$ au point E va descendre. Dès qu'elle passe en dessous du seuil $V_l$, le circuit va changer d'état. La tension de sortie $V_{out}$ sera à la masse, et la tension $V_C$ sera égale à la tension d'alimentation. La capacité va donc commencer à se charger à travers la résistance $R_1$. Lorsque la tension en E sera montée suffisamment, le circuit va à nouveau changer d'état et on se retrouve dans la situation initiale.
+
+\begin{figure}[h!]
+\center
+\includegraphics[width = 7cm]{img/montage1}
+\caption{Montage RC-trigger: le montage sort un signal carré en D.}
+\label{fig:RC_trig}
+\end{figure}
+
+Si le calcul des temps précis de charge et de décharge peut être compliqué, l'ordre de grandeur de ces temps est donné par la formule $\tau = R_1C_1$, avec $\tau$ la constante de temps du système, $C_1$ la capacité se chargeant/déchargeant et $R_1$ la résistance à travers laquelle elle se charge/décharge. Essayez donc avec plusieurs valeurs de capacité ($47$ nF et $220$ $\mu$F) afin de voir la variation de ce temps.
+
+Afin de rendre le fonctionnement du circuit plus visuel, on va rajouter une LED au point D du circuit. Ainsi, lorsque la tension $V_{out}$ vaut $V_S$, un courant va passer dans la LED et celle-ci va s'allumer. Si par contre la sortie $V_{out}$ est à la masse, aucun courant ne passe et la LED est éteinte. Afin d'éviter qu'un trop grand courant ne passe dans la LED, nous allons limiter celui-ci en rajoutant la résistance $R_2$ en série avec la LED.\\
+
+Avant de continuer, introduisons un nouveau composant: la diode. Une diode est un composant ne laissant passer le courant que dans un seul sens. Il existe de nombreux modèles permettant de saisir plus ou moins précisément le comportement d'une diode. Dans ce cas-ci, le plus simple suffira: si $V_{diode} > 0$ (cfr. Figure \ref{fig:diode}), la diode agit comme un court-circuit. Sinon, elle agit comme un circuit ouvert.
+
+\begin{figure}
+\center
+\includegraphics[width = 3cm]{img/diode}
+\caption{Schéma d'une diode}
+\label{fig:diode}
+\end{figure}
+
+
+Voici quelques questions pour vous guider dans la conception du circuit:
+
+\begin{itemize}
+\item Quelle partie du circuit contrôle la sortie du NE555? C'est cette partie de circuit qu'il vous faudra modifier.
+\item Afin que la fréquence de clignotement de la LED soit de l'ordre du Hz, quelles valeurs faut-il pour $C_1$ et $R_1$?
+\end{itemize}
+
+L'électronique est comme un grand jeu \textsc{Lego}: vous devez choisir parmi les différentes pièces à votre disposition et les assembler pour que tout se passe selon votre envie. N'hésitez pas à prendre une feuille, un crayon, et "tester" différentes possibilités.
+
+\section{RC-trigger réglable}
+Il ne vous reste plus qu'un petit pas à franchir: pouvoir régler facilement la fréquence de clignotement de la LED sans devoir à tout moment changer de capacité ou de résistance. Pour ce faire, nous introduisons un dernier composant: le potentiomètre. Celui-ci est schématisé à la Figure \ref{fig:potentiometre}. 
+
+\begin{figure}
+\center
+\includegraphics[width = 4cm]{img/potentiometre}
+\caption{Schéma d'un potentiomètre.}
+\label{fig:potentiometre}
+\end{figure}
+
+Les résistances $R_{\alpha\beta}$ et $R_{\beta\gamma}$ peuvent être réglées en tournant une molette ou en déplaçant un curseur. Cependant, la résistance totale du potentiomètre $R_{\alpha \gamma}$ est fixée. En fonction de la molette, on peut donc régler $R_{\alpha \beta}$ entre 0 et $R_{\alpha \gamma}$. Pour un réglage donné de $R_{\alpha \beta}$, $R_{\beta \gamma} = R_{\alpha \gamma} - R_{\alpha \beta}$.
+
+Comment pouvez-vous inclure un tel composant dans votre circuit afin de contrôler la fréquence de clignotement de la LED juste en réglant le potentiomètre?
+
+\section{RC-trigger pour la production d'un son}
+Jusqu'ici, nous avons travaillé avec le RC-trigger pour faire clignoter une LED à une fréquence variable, fixée par la constante de temps d'un circuit RC, et réglable au travers d'un potentiomètre. Si on remplace la LED par un haut-parleur, le signal électrique produit par le NE555 peut servir de signal d'entrée à un haut-parleur, produisant ainsi un son dont la fréquence est celle de ce même signal. Cependant, on ne travaille bien évidemment pas dans la même gamme de fréquence pour faire clignoter une LED (autour de quelques Hz) que pour produire un son dans la gamme audible. Il est donc nécessaire de changer la valeur de la résistance $R_1$ et de la capacité $C_1$. A titre d'information, le "la" standard qui sert de référence aux musiciens a une fréquence de 440 Hz. On notera par ailleurs qu'il est nécessaire d'ajouter une capacité de découplage entre la sortie du NE555 et l'entrée du haut-parleur.\\
+
+Voici quelques questions pour vous guider dans la conception du circuit:
+\begin{itemize}
+\item Afin que la fréquence du son soit de l'ordre du kHz, quelles valeurs faut-il pour $C_1$ et $R_1$?
+\item Quel est l'effet de la capacité de découplage sur le signal?
+\end{itemize}
+\begin{thebibliography}{10}
+
+\bibitem{trigger}
+$\text{http://www.electronique-et-informatique.fr/Digit/images/Comparaison} \_ \text{entre}\_ \text{2} \_ \text{bascules.gif}$
+
+\end{thebibliography}
+
+\end{document}
