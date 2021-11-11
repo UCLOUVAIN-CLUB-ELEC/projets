@@ -1,0 +1,18 @@
+[submodule "projet-robot"]
+	path = projet-robot
+	url = https://github.com/UCLOUVAIN-CLUB-ELEC/projet-robot.git
+[submodule "projet-telegraphe"]
+	path = projet-telegraphe
+	url = https://github.com/UCLOUVAIN-CLUB-ELEC/projet-telegraphe.git
+[submodule "projet-dimmer"]
+	path = projet-dimmer
+	url = https://github.com/UCLOUVAIN-CLUB-ELEC/projet-dimmer.git
+[submodule "projet-hand_clap"]
+	path = projet-hand_clap
+	url = https://github.com/UCLOUVAIN-CLUB-ELEC/projet-hand_clap.git
+[submodule "projet-receiver"]
+	path = projet-receiver
+	url = https://github.com/UCLOUVAIN-CLUB-ELEC/projet-rf_receiver.git
+[submodule "projet-ampli_audio"]
+	path = projet-ampli_audio
+	url = https://github.com/UCLOUVAIN-CLUB-ELEC/projet-ampli_audio.git
